@@ -11,6 +11,7 @@ import Carrousel from "@/components/Carrousel";
 import { useAtom } from "jotai";
 import { CurrentToken } from "@/components/engine/atoms";
 import axios from "axios";
+import Header from "@/components/Header";
 
 export default function Dashboard() {
 
@@ -237,20 +238,7 @@ export default function Dashboard() {
           <div data-w-id="7c9c1be1-8282-6390-2521-8ef1dc697d9a" className="layer-1-right---wrapper"><img src="/images/RightStoneTexture.png" loading="lazy" sizes="(max-width: 2029px) 100vw, 2029px" srcSet="/images/RightStoneTexture-p-500.png 500w, images/RightStoneTexture-p-800.png 800w, images/RightStoneTexture-p-1080.png 1080w, images/RightStoneTexture-p-1600.png 1600w, images/RightStoneTexture-p-2000.png 2000w, images/RightStoneTexture.png 2029w" alt="" className="layer-1-right-stone" /></div>
           <div data-w-id="dc5caad2-4c4b-df84-23ec-eb38be9d0261" className="layer-4-cave---wrapper"><img src="/images/FondoGluttons.png" loading="lazy" sizes="(max-width: 2029px) 100vw, 2029px" srcSet="/images/FondoGluttons-p-500.png 500w, images/FondoGluttons-p-800.png 800w, images/FondoGluttons-p-1080.png 1080w, images/FondoGluttons-p-1600.png 1600w, images/FondoGluttons-p-2000.png 2000w, images/FondoGluttons.png 2029w" alt="" className="layer-4-cave-background" /></div>
         </div>
-        <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" className="navbar w-nav">
-          <div className="w-container">
-            <a href="/" className="brand-2 w-nav-brand"><img src="/images/GluttonLogo.png" loading="lazy" sizes="(max-width: 767px) 98vw, (max-width: 991px) 727.984375px, 939.9921875px" srcSet="/images/GluttonLogo-p-500.png 500w, images/GluttonLogo-p-800.png 800w, images/GluttonLogo-p-1080.png 1080w, images/GluttonLogo-p-1600.png 1600w, images/GluttonLogo-p-2000.png 2000w, images/GluttonLogo.png 2134w" alt="" className="image-4" /></a>
-            <nav role="navigation" className="nav-menu w-nav-menu flex items-center">
-              <a data-w-id="c5a8553d-372c-851a-69d1-9575243e2090" href="/" className="nav-link w-nav-link">MINT</a>
-              <a data-w-id="c5a8553d-372c-851a-69d1-9575243e2092" href="/wtf" className="nav-link-2 w-nav-link">RULES</a>
-              <div className="nav-link-2 w-nav-link"><ConnectButton label="ConNECT" /></div>
-              {/*<a data-w-id="c5a8553d-372c-851a-69d1-9575243e2094" href="dashboard.html" aria-current="page" className="nav-link-3 w-nav-link w--current">ConNECT</a>*/}
-            </nav>
-            <div className="menu-ham w-nav-button">
-              <div className="w-icon-nav-menu"></div>
-            </div>
-          </div>
-        </div>
+        <Header />
         <div className="game-wrapper wtf">
           <div className="state1 wtf-text">
             <div className="section1wtf dashboard">
@@ -359,10 +347,10 @@ export default function Dashboard() {
                     <div className="divseparation">
                       <div className="divfoodinfo">
                         <div className="textinputs">FOOD:  </div>
-                        <div className="text-block-3">{tokens.length == 0 ? "0" : tokens.length}</div>
+                        <div className="text-block-3 ms-1">{tokens.length == 0 ? "0" : tokens.length}</div>
                       </div>
                       <div className="mintbuttondiv burnfood">
-                        <div className="text-block-2">{"Total vote: " + tVotes}</div>
+                        <div className="text-block-2">Total votes:<span className="text-block-2 ms-1">{tVotes}</span> </div>
                       </div>
                     </div>
                     <div className="divseparation">

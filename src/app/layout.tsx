@@ -7,11 +7,11 @@ import { Providers } from "./providers";
 
 
 const pressura = localFont({ 
-  src: "./fonts/GT-Pressura-Mono.otf",
+  src: "../../public/fonts/GT-Pressura-Mono.otf",
   variable: '--font-pressura',
 })
 const hogfish = localFont({ 
-  src: './fonts/Hogfish DEMO.otf',
+  src: '../../public/fonts/Hogfish DEMO.otf',
   variable: '--font-hogfish'
 })
 
