@@ -321,7 +321,8 @@ export default function Dashboard() {
                     <div className="divgluttonstatus">
                       <div className="statusglutton">
                         <div className="statusinputs">
-                          <div className="statustext">STATUS ID:<span className="statustext ms-1">{currentToken.id == "" ? "Select Glutton" : currentToken.id}</span></div>
+                          <div className="statustext pt-2">ID:<span className="statustext ms-1">{currentToken.id == "" ? "Select Glutton" : currentToken.id}</span></div>
+                          <div className="statustext">STATUS:</div>
                           <div className="statustext">Times Fed: <span className="statustext ms-1">{petTimesFed}</span></div>
                           <div className={petFed ? "fedtext" : "fedtext2"}>{petFed ? "FED" : "STARVING"}</div>
                         </div>
