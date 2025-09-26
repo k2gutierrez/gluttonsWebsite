@@ -1,25 +1,11 @@
 "use client"
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 
 export default function Wtf() {
-
-  interface TextElement extends Element {
-    innerText: string;
-  }
-
-  const { isConnected } = useAccount()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (isConnected) {
-      router.push("/dashboard")
-    }
-  }, [isConnected])
 
   /*useEffect(() => {
     addEvent()

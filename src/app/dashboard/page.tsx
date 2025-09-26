@@ -1,9 +1,7 @@
 "use client"
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useChainId, useReadContract, useConfig, useWriteContract, useBlockNumber } from "wagmi";
+import { useAccount, useChainId, useReadContract, useWriteContract, useBlockNumber } from "wagmi";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { GluttonsABI } from "@/components/engine/GluttonsABI";
 import { GluttonsFoodABI } from "@/components/engine/GluttonsFoodABI";
 import { GluttonsCurtis, GluttonsFood, Gluttons, GluttonsFoodCurtis } from "@/components/engine/Constants";
@@ -18,14 +16,14 @@ export default function Dashboard() {
   const { writeContract } = useWriteContract()
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
-  const router = useRouter()
-  const config = useConfig()
   let petFed: boolean = false
-  let Petprice: number
+  let petTimesFed: number = 0
   const { data: blockNumber } = useBlockNumber({ watch: true })
   const [currentToken, setCurrentToken] = useAtom(CurrentToken)
+  const [buttonClick, setButtonClick] = useState(false)
   const [tokens, setTokens] = useState<number[]>([])
   let tVotes: number = 0
+  let voteChecked = false
 
   const { data: vote, refetch: hasVote } = useReadContract({
     abi: GluttonsABI,
@@ -34,17 +32,30 @@ export default function Dashboard() {
     args: [Number(currentToken.id)],
   })
 
+  if (vote == true) {
+    voteChecked = true
+  }
+
+  useEffect(() => {
+    if (currentToken.id == "") {
+      setButtonClick(false)
+    } else {
+      setButtonClick(true)
+    }
+  }, [currentToken.id])
+
   useEffect(() => {
     r1()
     r2()
     r3()
     sup()
     Totalvotes()
+    hasVote()
   }, [blockNumber])
 
   useEffect(() => {
     refetch()
-    hasVote()
+
   }, [currentToken.id])
 
   function gluttonAddress() {
@@ -105,6 +116,7 @@ export default function Dashboard() {
   if (petInfo != undefined) {
     const { fed, alive, timesFed, claim } = petInfo as Pet
     petFed = fed
+    petTimesFed = Number(timesFed)
   }
 
   const { data: petPrice } = useReadContract({
@@ -195,7 +207,7 @@ export default function Dashboard() {
     setTimeout(() => {
       refetch()
     }, 5000)
-    
+
   }
 
   async function getGluttonsFood() {
@@ -309,14 +321,15 @@ export default function Dashboard() {
                     <div className="divgluttonstatus">
                       <div className="statusglutton">
                         <div className="statusinputs">
-                          <div className="statustext">STATUS:</div>
+                          <div className="statustext">STATUS ID:<span className="statustext ms-1">{currentToken.id == "" ? "Select Glutton" : currentToken.id}</span></div>
+                          <div className="statustext">Times Fed: <span className="statustext ms-1">{petTimesFed}</span></div>
                           <div className={petFed ? "fedtext" : "fedtext2"}>{petFed ? "FED" : "STARVING"}</div>
                         </div>
                       </div>
                       <div className="feedglutton">
-                        <button className="mintbuttondiv feed" onClick={feedGlutton} disabled={petFed}>
+                        {buttonClick && (<button className="mintbuttondiv feed" onClick={feedGlutton} disabled={petFed}>
                           <div className="text-block-2">{petFed ? "WAIT" : "FEED"}</div>
-                        </button>
+                        </button>)}
                       </div>
                     </div>
                   </div>
@@ -362,11 +375,13 @@ export default function Dashboard() {
                           <div className={vote ? "fedtext" : "fedtext2"}>{vote ? "TRUE" : "FALSE"}</div>
                         </div>
                         <div className="divstatuscheck">
-                          <div className="splitdecision">
-                            <button className="splitbutton" onClick={castVoteTrue}>
+                          {!voteChecked && (
+                            <div className="splitdecision">
+                            <button className={buttonClick ? "splitbutton" : "text-red"} onClick={castVoteTrue} disabled={buttonClick ? false : true}>
                               <div className="textsplit">Vote to Split</div>
                             </button>
                           </div>
+                          )}
                         </div>
                       </div>
                     </div>
