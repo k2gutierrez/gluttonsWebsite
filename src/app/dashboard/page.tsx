@@ -10,6 +10,7 @@ import { useAtom } from "jotai";
 import { CurrentToken } from "@/components/engine/atoms";
 import axios from "axios";
 import Header from "@/components/Header";
+import MintModal from "@/components/MintModal";
 
 export default function Dashboard() {
 
@@ -306,6 +307,7 @@ export default function Dashboard() {
                       <div className="divimages gluttonsimg"><img src="images/985.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="images/985-p-500.png 500w, images/985-p-800.png 800w, images/985-p-1080.png 1080w, images/985-p-1600.png 1600w, images/985.png 1999w" alt="" className="image-5 glutimage" /></div>
                       <div className="divimages gluttonsimg"><img src="images/950.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="images/950-p-500.png 500w, images/950-p-800.png 800w, images/950-p-1080.png 1080w, images/950-p-1600.png 1600w, images/950.png 1999w" alt="" className="image-5 glutimage" /></div>*/}
                     </div>
+                    {/*<MintModal />*/}
                     <div className="mintanotherglutton">
                       <button className="mintbuttondiv glutton" onClick={mintGlutton}>
                         <div className="text-block-2">MINT</div>
@@ -314,14 +316,14 @@ export default function Dashboard() {
                   </div>
                   <div className="divglutselected">
                     <div className="divmainglutton">
-                      {currentToken?.id == "" ? (<div className="divimagemainglutton"><img src="/images/928.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="/images/928-p-500.png 500w, images/928-p-800.png 800w, images/928-p-1080.png 1080w, images/928-p-1600.png 1600w, images/928.png 1999w" alt="" className="mainimageglutton" /></div>) : (
+                      {currentToken?.id == "" ? (<div className="divimagemainglutton statustext">SELECT YOUR GLUTTON{/*<img src="/images/928.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="/images/928-p-500.png 500w, images/928-p-800.png 800w, images/928-p-1080.png 1080w, images/928-p-1600.png 1600w, images/928.png 1999w" alt="" className="mainimageglutton" />*/}</div>) : (
                         <div className="divimagemainglutton"><img src={"https://" + currentToken?.url} loading="lazy" alt="" className="mainimageglutton" /></div>
                       )}
                     </div>
                     <div className="divgluttonstatus">
                       <div className="statusglutton">
                         <div className="statusinputs">
-                          <div className="statustext pt-2">ID:<span className="statustext ms-1">{currentToken.id == "" ? "Select Glutton" : currentToken.id}</span></div>
+                          <div className="statustext pt-2">ID:<span className="statustext ms-1">{currentToken.id == "" ? "" : currentToken.id}</span></div>
                           <div className="statustext">STATUS:</div>
                           <div className="statustext">Times Fed: <span className="statustext ms-1">{petTimesFed}</span></div>
                           <div className={petFed ? "fedtext" : "fedtext2"}>{petFed ? "FED" : "STARVING"}</div>
