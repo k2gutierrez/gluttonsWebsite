@@ -11,6 +11,7 @@ import { CurrentToken } from "@/components/engine/atoms";
 import axios from "axios";
 import Header from "@/components/Header";
 import MintModal from "@/components/MintModal";
+import { parseEther } from "viem";
 
 export default function Dashboard() {
 
@@ -164,7 +165,7 @@ export default function Dashboard() {
       address: gluttonAddress() as `0x${string}`,
       functionName: "mintPet",
       args: [1],
-      value: petPrice as bigint,
+      value: petPrice as bigint
     })
   }
 
@@ -309,9 +310,7 @@ export default function Dashboard() {
                     </div>
                     {/*<MintModal />*/}
                     <div className="mintanotherglutton">
-                      <button className="mintbuttondiv glutton" onClick={mintGlutton}>
-                        <div className="text-block-2">MINT</div>
-                      </button>
+                      <MintModal />
                     </div>
                   </div>
                   <div className="divglutselected">
