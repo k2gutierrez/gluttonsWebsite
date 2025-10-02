@@ -21,8 +21,9 @@ import { Base64 } from 'js-base64';
 export default function Carrousel() {
 
     interface Token {
-        id: string,
+        id: string
         url: string
+        status: boolean
     }
 
     const [error, setError] = useState('');
@@ -100,7 +101,8 @@ export default function Carrousel() {
                 for (let i = 0; i < data1.tokens.length; i++) {
                     let info: Token = {
                         id: data1.tokens[i].token.tokenId,
-                        url: ""
+                        url: "",
+                        status: false
                     }
                     tokensArr.push(info)
                 }
@@ -139,7 +141,8 @@ export default function Carrousel() {
                     let data1 = res.data
                     let info: Token = {
                         id: tokens[i].id,
-                        url: data1.image
+                        url: data1.image,
+                        status: false
                     }
                     urlArr.push(info)
                 })
@@ -154,8 +157,8 @@ export default function Carrousel() {
             <div className="w-full max-w-6xl mx-auto px-4 py-8">
                 <Swiper
                     modules={[Navigation, Pagination]}
-                    spaceBetween={5}
-                    slidesPerView={1}
+                    spaceBetween={1}
+                    slidesPerView={4}
                     breakpoints={{
                         640: {
                             slidesPerView: 2,
@@ -164,24 +167,27 @@ export default function Carrousel() {
                             slidesPerView: 4,
                         },
                     }}
-                    navigation
-                    pagination={{ clickable: true }}
+                    navigation={true}
+                    pagination={true}
+                    
                     className="mySwiper"
                 >
                 {
                     tokensAtom.map((data, index) => (
                         
-                        <SwiperSlide key={index}>
-                            <div className="h-28 w-28 overflow-hidden rounded-lg shadow-lg">
-                                <button onClick={() => {
+                        <SwiperSlide className="" key={index} onClick={() => {
+                                    currentToken.status = false
+                                    data.status = true
                                     setCurrentToken(data)
                                 }}>
+                            <div className="h-28 w-28 overflow-hidden rounded-lg shadow-lg p-4">
+                                
                                     <img
                                         src={"https://" + data.url}
                                         alt={`Slide ${index}`}
-                                        className="w-full h-full object-cover"
+                                        className={data.status ? "w-full h-full object-cover border-4 border-solid border-blue-600 rounded-full" : "w-full h-full object-cover"}
                                     />
-                                </button>
+                            
                             </div>
                         </SwiperSlide>
                     ))}

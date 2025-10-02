@@ -988,6 +988,14 @@ img {
   padding: 10px 5px;
 }
 
+.swiper-slide, .swiper-slide * {
+    pointer-events: auto !important;
+}
+
+.swiper-pagination-bullets {
+  display: none;
+}
+
 .divmainglutton {
   border-radius: 4px;
   width: 50%;

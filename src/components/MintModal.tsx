@@ -12,9 +12,8 @@ export default function MintModal() {
     const config = useConfig()
     const chainId = useChainId()
     const {data: hash , writeContract } = useWriteContract()
-    const { isSuccess: isConfirmed, isPending } = useWaitForTransactionReceipt({ hash });
+    const { isSuccess: isConfirmed, isError, isLoading } = useWaitForTransactionReceipt({ hash });
 
-    const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState(false)
     let amount: bigint
 
@@ -52,7 +51,7 @@ export default function MintModal() {
         if (numTokens == "" || numTokens == "0"){
             return
         }
-        setLoading(true)
+        
         writeContract({
             abi: GluttonsABI,
             address: gluttonAddress() as `0x${string}`,
@@ -93,7 +92,7 @@ export default function MintModal() {
                             </button>
                         </>
                         )}
-                        {!isConfirmed && !loading && (<><div className="">
+                        {!isConfirmed && !isLoading && (<><div className="">
                             <input type="number" value={numTokens} className="text-center text-black" onChange={(e) => setNumTokens((e.target.value))} />
                             <button
                                 onClick={mintGlutton}
@@ -111,7 +110,7 @@ export default function MintModal() {
 
                             </button></>
                         )}
-                        {!isConfirmed && loading &&
+                        {!isConfirmed && isLoading &&
                             (
                                 <div className="flex justify-center items-center">
                                     <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>

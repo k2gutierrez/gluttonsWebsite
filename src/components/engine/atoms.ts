@@ -5,12 +5,13 @@ import { atomWithStorage } from 'jotai/utils'
 interface Token {
     id: string;
     url: string;
+    status: boolean;
   }
 
 // game
 export let loadingAtom = atom(false);
 export let Tokens = atom<Token[]>([]);
-export let CurrentToken = atom<Token>({id: "", url: ""});
+export let CurrentToken = atom<Token>({id: "", url: "", status: false});
 
 // Derived atom example
 //export const doubledCountAtom = atom((get) => get(countAtom)[randomColor(countAtom)])
