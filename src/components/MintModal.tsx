@@ -8,6 +8,7 @@ import { parseEther } from "viem";
 export default function MintModal() {
     const [isOpen, setIsOpen] = useState(false);
     const [numTokens, setNumTokens] = useState<string>("0")
+    const [confirmed, setConfirmed] = useState(false)
     const { isConnected, address } = useAccount()
     const config = useConfig()
     const chainId = useChainId()
@@ -21,6 +22,8 @@ export default function MintModal() {
     const closeModal = () => {
         setIsOpen(false);
         setMessage(false)
+        setConfirmed(false)
+        setNumTokens("0")
     }
 
     const { data: petPrice } = useReadContract({
@@ -46,6 +49,12 @@ export default function MintModal() {
         }
 
     }, [numTokens])
+
+    useEffect(() => {
+        if (isConfirmed) {
+            setConfirmed(true)
+        }
+    }, [isConfirmed])
 
     const mintGlutton = () => {
         if (numTokens == "" || numTokens == "0"){
@@ -81,7 +90,7 @@ export default function MintModal() {
                         <p className='text-md md:text-xl font-[family-name:var(--font-hogfish)]'>
                             Mint GlutOns
                         </p>
-                        {isConfirmed && (<>
+                        {confirmed && (<>
                             <p className='text-md md:text-xl text-blue-400 font-[family-name:var(--font-hogfish)]'>MINT SUCCESSFUL!</p>
                             <button
                                 onClick={closeModal}
@@ -92,7 +101,7 @@ export default function MintModal() {
                             </button>
                         </>
                         )}
-                        {!isConfirmed && !isLoading && (<><div className="">
+                        {!confirmed && !isLoading && (<><div className="">
                             <input type="number" value={numTokens} className="text-center text-black" onChange={(e) => setNumTokens((e.target.value))} />
                             <button
                                 onClick={mintGlutton}
@@ -110,7 +119,7 @@ export default function MintModal() {
 
                             </button></>
                         )}
-                        {!isConfirmed && isLoading &&
+                        {isLoading &&
                             (
                                 <div className="flex justify-center items-center">
                                     <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>

@@ -175,7 +175,7 @@ export default function Carrousel() {
                 {
                     tokensAtom.map((data, index) => (
                         
-                        <SwiperSlide className="" key={index} onClick={() => {
+                        <SwiperSlide className="cursor-pointer" key={index} onClick={() => {
                                     currentToken.status = false
                                     data.status = true
                                     setCurrentToken(data)

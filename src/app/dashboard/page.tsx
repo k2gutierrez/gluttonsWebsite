@@ -27,6 +27,12 @@ export default function Dashboard() {
   let tVotes: number = 0
   let voteChecked = false
 
+  const { data: foodSupply, refetch: sup } = useReadContract({
+    abi: GluttonsFoodABI,
+    address: gluttonFoodAddress() as `0x${string}`,
+    functionName: 'totalSupply',
+  })
+
   const { data: vote, refetch: hasVote } = useReadContract({
     abi: GluttonsABI,
     address: gluttonAddress() as `0x${string}`,
@@ -58,7 +64,7 @@ export default function Dashboard() {
   useEffect(() => {
     refetch()
 
-  }, [currentToken.id])
+  }, [currentToken.id, foodSupply])
 
   function gluttonAddress() {
     let gluttonadr = ""
@@ -149,12 +155,6 @@ export default function Dashboard() {
     functionName: 'getFoodPrice30Pack',
   })
 
-  const { data: foodSupply, refetch: sup } = useReadContract({
-    abi: GluttonsFoodABI,
-    address: gluttonFoodAddress() as `0x${string}`,
-    functionName: 'totalSupply',
-  })
-
   useEffect(() => {
     getGluttonsFood()
   }, [foodSupply])
@@ -206,9 +206,7 @@ export default function Dashboard() {
       functionName: "feedPet",
       args: [address, Number(currentToken.id), tokens[0]],
     })
-    setTimeout(() => {
-      refetch()
-    }, 5000)
+    console.log("tokenId: ", Number(currentToken.id), "foodId: ", tokens[0])
 
   }
 
