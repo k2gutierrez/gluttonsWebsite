@@ -1,6 +1,6 @@
 // CURTIS
-export const GluttonsCurtis = "0x544C16dE9bBBBB6b7e7257E7b82a8696a9DF055a"
-export const GluttonsFoodCurtis = "0x26b2682E40Ca5DF691a0962931DadA491d06A391"
+export const GluttonsCurtis = "0x67344F3E24C32e564c022987B4eC18071F11Bf77"
+export const GluttonsFoodCurtis = "0x56cA1b78B06c95044aDF8F6098E0DdDE2bd2a0f4"
 
 // APECHAIN
 

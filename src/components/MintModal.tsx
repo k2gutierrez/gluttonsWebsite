@@ -10,13 +10,11 @@ export default function MintModal() {
     const [numTokens, setNumTokens] = useState<string>("0")
     const [confirmed, setConfirmed] = useState(false)
     const { isConnected, address } = useAccount()
-    const config = useConfig()
     const chainId = useChainId()
     const {data: hash , writeContract } = useWriteContract()
     const { isSuccess: isConfirmed, isError, isLoading } = useWaitForTransactionReceipt({ hash });
 
     const [message, setMessage] = useState(false)
-    let amount: bigint
 
     const openModal = () => setIsOpen(true);
     const closeModal = () => {
@@ -26,10 +24,11 @@ export default function MintModal() {
         setNumTokens("0")
     }
 
-    const { data: petPrice } = useReadContract({
+    const { data: petPrice, refetch } = useReadContract({
         abi: GluttonsABI,
         address: gluttonAddress() as `0x${string}`,
         functionName: 'getPetPrice',
+        args: [Number(numTokens)],
     })
 
     function gluttonAddress() {
@@ -44,8 +43,7 @@ export default function MintModal() {
 
     useEffect(() => {
         if (petPrice != undefined) {
-            let pPrice = BigInt(String(petPrice)) * BigInt(numTokens)
-            amount = pPrice
+            refetch()
         }
 
     }, [numTokens])
@@ -66,7 +64,7 @@ export default function MintModal() {
             address: gluttonAddress() as `0x${string}`,
             functionName: "mintPet",
             args: [Number(numTokens)],
-            value: amount as bigint
+            value: petPrice as bigint
         })
     }
 

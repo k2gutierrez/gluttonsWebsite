@@ -341,7 +341,13 @@ export const GluttonsABI = [
         {
             "type": "function",
             "name": "getPetPrice",
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "_amount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
             "outputs": [
                 {
                     "name": "",

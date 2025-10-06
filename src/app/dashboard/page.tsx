@@ -127,12 +127,6 @@ export default function Dashboard() {
     petTimesFed = Number(timesFed)
   }
 
-  const { data: petPrice } = useReadContract({
-    abi: GluttonsABI,
-    address: gluttonAddress() as `0x${string}`,
-    functionName: 'getPetPrice',
-  })
-
   const { data: totalVotes, refetch: Totalvotes } = useReadContract({
     abi: GluttonsABI,
     address: gluttonAddress() as `0x${string}`,
@@ -158,16 +152,6 @@ export default function Dashboard() {
   useEffect(() => {
     getGluttonsFood()
   }, [foodSupply])
-
-  const mintGlutton = () => {
-    writeContract({
-      abi: GluttonsABI,
-      address: gluttonAddress() as `0x${string}`,
-      functionName: "mintPet",
-      args: [1],
-      value: petPrice as bigint
-    })
-  }
 
   const mintWeek = () => {
     writeContract({
