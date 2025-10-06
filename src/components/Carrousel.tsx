@@ -15,8 +15,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Tokens, CurrentToken } from "./engine/atoms";
 import { useAtom } from "jotai";
-import * as base64js from 'base64-js';
-import { Base64 } from 'js-base64';
 
 export default function Carrousel() {
 
@@ -41,6 +39,12 @@ export default function Carrousel() {
         functionName: 'getAlivePetCount',
     })
 
+    const { data: lastReaperCall, refetch: reaper } = useReadContract({
+        abi: GluttonsABI,
+        address: gluttonAddress() as `0x${string}`,
+        functionName: 'getlastReaperCall',
+    })
+
     useEffect(() => {
         if (isConnected && address != undefined) {
             getGluttons()
@@ -55,14 +59,16 @@ export default function Carrousel() {
     useEffect(() => {
 
         refetch()
+        reaper()
 
     }, [blockNumber])
 
     useEffect(() => {
 
         getURI()
+        setCurrentToken({id: "", url: "", status: false})
 
-    }, [tokens.length])
+    }, [tokens.length, lastReaperCall])
 
     function gluttonAddress() {
         let gluttonadr = ""
@@ -180,7 +186,7 @@ export default function Carrousel() {
                                     data.status = true
                                     setCurrentToken(data)
                                 }}>
-                            <div className="h-28 w-28 overflow-hidden rounded-lg shadow-lg p-4">
+                            <div className="h-28 w-28 overflow-hidden rounded-lg shadow-lg p-5">
                                 
                                     <img
                                         src={"https://" + data.url}

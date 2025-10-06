@@ -190,7 +190,6 @@ export default function Dashboard() {
       functionName: "feedPet",
       args: [address, Number(currentToken.id), tokens[0]],
     })
-    console.log("tokenId: ", Number(currentToken.id), "foodId: ", tokens[0])
 
   }
 
