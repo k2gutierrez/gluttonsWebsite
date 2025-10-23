@@ -1,6 +1,6 @@
 // CURTIS
-export const GluttonsCurtis = "0x67344F3E24C32e564c022987B4eC18071F11Bf77"
-export const GluttonsFoodCurtis = "0x56cA1b78B06c95044aDF8F6098E0DdDE2bd2a0f4"
+export const GluttonsCurtis = "0xfc94b6c6eaadC69918485db1400eB9F77eD82B72"
+export const GluttonsFoodCurtis = "0x0C5Ff3aD7CbdbfdBA83AAa8471d5190d1FdD26f5"
 
 // APECHAIN
 
@@ -8,4 +8,4 @@ export const Gluttons = "0"
 export const GluttonsFood = "0"
 
 export const ActualChainId = 33111
-export const ActualAddress = GluttonsCurtis
+export const ActualAddress = "0xfc94b6c6eaadC69918485db1400eB9F77eD82B72"

@@ -31,6 +31,7 @@ img {
   padding-right: 20px;
   font-family: Bungee, sans-serif;
   position: relative;
+  z-index: 1000;
 }
 
 .brand {
@@ -546,6 +547,8 @@ img {
   max-height: 50px;
   padding-top: 7px;
   padding-bottom: 7px;
+  display: flex;
+  align-items: center;
 }
 
 .image-4 {
@@ -985,7 +988,7 @@ img {
 .mintanotherglutton {
   width: 20%;
   height: 100%;
-  padding: 10px 5px;
+  
 }
 
 .swiper-slide, .swiper-slide * {
@@ -1244,6 +1247,18 @@ img {
     color: #81b8e7;
     -webkit-text-stroke-color: #3898ec;
     background-color: #0000002e;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link,
+  .nav-link-2 {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
   }
 
   .supplypool-info {
@@ -4185,3 +4200,7 @@ textarea.w-select {
 .wf-layout-layout {
   display: grid;
 }
+
+
+
+

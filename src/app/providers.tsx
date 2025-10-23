@@ -5,8 +5,8 @@ import { RainbowKitProvider, connectorsForWallets, darkTheme } from "@rainbow-me
 import { glyphConnectorDetails, GlyphProvider, glyphWalletRK, StrategyType, WalletClientType } from "@use-glyph/sdk-react";
 import JotaiProviders from "@/components/engine/JotaiProviders";
 //import config from "@/rainbowKitConfig";
-import { WagmiProvider, createConfig } from "wagmi";
-import { Transport, Chain, http } from "viem";
+import { WagmiProvider, createConfig, http, Transport, webSocket } from "wagmi";
+import { Chain } from "viem";
 import { apeChain, curtis, anvil } from "wagmi/chains";
 import { useState, type ReactNode } from "react";
 import "@rainbow-me/rainbowkit/styles.css"
@@ -28,6 +28,35 @@ export function Providers(props: { children: ReactNode }) {
             projectId: glyphConnectorDetails.id,
         },
     );
+
+    const apeChainRpcUrl = `https://apechain-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`;
+    const curtisRpcUrl = `https://apechain-curtis.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`;
+    const anvilRpcUrl = 'http://localhost:8545';
+
+    const apeWebsocket = `wss://apechain-curtis.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+    const curtisWebsocket = `wss://apechain-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+
+    const wagmiTransports: Record<number, Transport> = {
+        // For chains that need a dedicated provider, pass the URL to http() or webSocket()
+        [apeChain.id]: http(apeChainRpcUrl),
+        [curtis.id]: webSocket(curtisWebsocket) || http(curtisRpcUrl),
+
+        // Use a local transport for development chains like Anvil
+        [anvil.id]:  http("https://localhost:8545"),
+
+        // Include WebSocket transport for real-time event subscriptions, if supported
+        // [apeChain.id]: webSocket(`wss://base-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
+        // ...
+    };
+
+    // const wagmiConfig = createConfig({
+    //     //appName: "Mingles",
+    //     //projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
+    //     chains: supportedChains,
+    //     transports: wagmiTransports,
+    //     connectors,
+    //     syncConnectedChain: true
+    // })
 
     const wagmiConfig = createConfig({
         //appName: "Mingles",

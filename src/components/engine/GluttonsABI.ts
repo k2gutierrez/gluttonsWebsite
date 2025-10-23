@@ -129,8 +129,20 @@ export const GluttonsABI = [
         {
             "type": "function",
             "name": "executeReaper",
-            "inputs": [],
-            "outputs": [],
+            "inputs": [
+                {
+                    "name": "batchSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool",
+                    "internalType": "bool"
+                }
+            ],
             "stateMutability": "nonpayable"
         },
         {
@@ -184,6 +196,19 @@ export const GluttonsABI = [
                     "name": "",
                     "type": "address",
                     "internalType": "address"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getBurnAllowed",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool",
+                    "internalType": "bool"
                 }
             ],
             "stateMutability": "view"
@@ -299,6 +324,19 @@ export const GluttonsABI = [
         },
         {
             "type": "function",
+            "name": "getPendingTokensToBurnNumber",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
             "name": "getPetInfo",
             "inputs": [
                 {
@@ -315,11 +353,6 @@ export const GluttonsABI = [
                     "components": [
                         {
                             "name": "fed",
-                            "type": "bool",
-                            "internalType": "bool"
-                        },
-                        {
-                            "name": "alive",
                             "type": "bool",
                             "internalType": "bool"
                         },
@@ -356,6 +389,19 @@ export const GluttonsABI = [
                 }
             ],
             "stateMutability": "pure"
+        },
+        {
+            "type": "function",
+            "name": "getReaperCycleActive",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool",
+                    "internalType": "bool"
+                }
+            ],
+            "stateMutability": "view"
         },
         {
             "type": "function",
@@ -490,6 +536,25 @@ export const GluttonsABI = [
                 }
             ],
             "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "reapTokens",
+            "inputs": [
+                {
+                    "name": "burnBatchSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool",
+                    "internalType": "bool"
+                }
+            ],
+            "stateMutability": "nonpayable"
         },
         {
             "type": "function",
@@ -829,6 +894,12 @@ export const GluttonsABI = [
                     "type": "uint256",
                     "indexed": false,
                     "internalType": "uint256"
+                },
+                {
+                    "name": "winners",
+                    "type": "address[]",
+                    "indexed": true,
+                    "internalType": "address[]"
                 }
             ],
             "anonymous": false
@@ -838,7 +909,7 @@ export const GluttonsABI = [
             "name": "GameEndedBySingleSurvivor",
             "inputs": [
                 {
-                    "name": "users",
+                    "name": "user",
                     "type": "address",
                     "indexed": false,
                     "internalType": "address"
@@ -855,6 +926,12 @@ export const GluttonsABI = [
                     "type": "uint256",
                     "indexed": false,
                     "internalType": "uint256"
+                },
+                {
+                    "name": "winners",
+                    "type": "address[]",
+                    "indexed": true,
+                    "internalType": "address[]"
                 }
             ],
             "anonymous": false
@@ -913,7 +990,20 @@ export const GluttonsABI = [
         {
             "type": "event",
             "name": "SurvivorRecordUpdated",
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "survivors",
+                    "type": "address[]",
+                    "indexed": true,
+                    "internalType": "address[]"
+                },
+                {
+                    "name": "time",
+                    "type": "uint256",
+                    "indexed": true,
+                    "internalType": "uint256"
+                }
+            ],
             "anonymous": false
         },
         {
@@ -964,27 +1054,17 @@ export const GluttonsABI = [
         },
         {
             "type": "error",
-            "name": "Gluttons__AddressAlreadyClaimed",
-            "inputs": []
-        },
-        {
-            "type": "error",
-            "name": "Gluttons__AlreadyClaimedPrice",
-            "inputs": []
-        },
-        {
-            "type": "error",
             "name": "Gluttons__AlreadyVoted",
             "inputs": []
         },
         {
             "type": "error",
-            "name": "Gluttons__FeedingFailed",
+            "name": "Gluttons__BurningNotAllowed",
             "inputs": []
         },
         {
             "type": "error",
-            "name": "Gluttons__FoodContractAddressAlreadySet",
+            "name": "Gluttons__FeedingFailed",
             "inputs": []
         },
         {
@@ -995,11 +1075,6 @@ export const GluttonsABI = [
         {
             "type": "error",
             "name": "Gluttons__GameEnded",
-            "inputs": []
-        },
-        {
-            "type": "error",
-            "name": "Gluttons__GameStillActive",
             "inputs": []
         },
         {
@@ -1030,17 +1105,7 @@ export const GluttonsABI = [
         },
         {
             "type": "error",
-            "name": "Gluttons__NoSurvivors",
-            "inputs": []
-        },
-        {
-            "type": "error",
             "name": "Gluttons__NotASurvivor",
-            "inputs": []
-        },
-        {
-            "type": "error",
-            "name": "Gluttons__NotInLastSurvivorsSet",
             "inputs": []
         },
         {
@@ -1060,11 +1125,6 @@ export const GluttonsABI = [
         },
         {
             "type": "error",
-            "name": "Gluttons__PetIsDead",
-            "inputs": []
-        },
-        {
-            "type": "error",
             "name": "Gluttons__ThereAreMoreOrNoSurvivors",
             "inputs": []
         },
@@ -1076,11 +1136,6 @@ export const GluttonsABI = [
         {
             "type": "error",
             "name": "Gluttons__TooEarly",
-            "inputs": []
-        },
-        {
-            "type": "error",
-            "name": "Gluttons__TraitsAlreadyLocked",
             "inputs": []
         },
         {

@@ -1,7 +1,7 @@
 "use client"
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useReadContract } from "wagmi";
+import { useAccount, useReadContract, useBlockNumber } from "wagmi";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ActualAddress, ActualChainId } from "@/components/engine/Constants";
@@ -10,19 +10,20 @@ import Header from "@/components/Header";
 
 export default function Home() {
 
+  const { data: blockNumber } = useBlockNumber({ watch: true })
   const { isConnected } = useAccount()
   const router = useRouter()
 
-  const {data: pool} = useReadContract({
+  const {data: pool, refetch: prize} = useReadContract({
     abi: GluttonsABI,
-    address: ActualAddress,
+    address: ActualAddress as `0x${string}`,
     functionName: 'getTotalPrizePool',
     chainId: ActualChainId
   })
 
-  const {data: supply} = useReadContract({
+  const {data: supply, refetch: sup} = useReadContract({
     abi: GluttonsABI,
-    address: ActualAddress,
+    address: ActualAddress as `0x${string}`,
     functionName: 'getTotalMinted',
     chainId: ActualChainId
   })
@@ -30,10 +31,15 @@ export default function Home() {
   const realPool = (Number(pool) / 1000000000000000000).toFixed(2)
 
   useEffect(() => {
-    if (isConnected) {
-      router.push("/dashboard")
-    }
-  }, [isConnected])
+    sup()
+    prize()
+  }, [blockNumber])
+
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     router.push("/dashboard")
+  //   }
+  // }, [isConnected])
 
   /*useEffect(() => {
 
@@ -103,9 +109,10 @@ export default function Home() {
             </div>
             <div className="section-2-landing">
               <div className="state1-text general">Mint your shot at 100k APE</div>
-              <div className="btn-container">
-                <ConnectButton label="ConNECT" />
-                <a href="wtf" className="btn- w-button">RULES</a>
+              <div className="grid grid-cols-1 md:grid-cols-2 place-content-stretch gap-2" > {/**btn-container */}
+                <div className=""><ConnectButton label="ConNECT" /></div>
+                <div><a href="wtf" className="btn- w-button">RULES</a></div>
+                
               </div>
               <div className="state1-text general">No luck. Only greed, guts &amp; gluttony.</div>
             </div>

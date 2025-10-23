@@ -1,6 +1,6 @@
 "use client"
 
-import { useAccount, useChainId, useReadContract, useWriteContract, useBlockNumber } from "wagmi";
+import { useAccount, useChainId, useReadContract, useWriteContract, useBlockNumber, useWatchContractEvent } from "wagmi";
 import { useEffect, useState } from "react";
 import { GluttonsABI } from "@/components/engine/GluttonsABI";
 import { GluttonsFoodABI } from "@/components/engine/GluttonsFoodABI";
@@ -11,7 +11,6 @@ import { CurrentToken } from "@/components/engine/atoms";
 import axios from "axios";
 import Header from "@/components/Header";
 import MintModal from "@/components/MintModal";
-import { parseEther } from "viem";
 
 export default function Dashboard() {
 
@@ -26,6 +25,12 @@ export default function Dashboard() {
   const [tokens, setTokens] = useState<number[]>([])
   let tVotes: number = 0
   let voteChecked = false
+
+  const { data: gameStatus, refetch: gluttonsGameStatus } = useReadContract({
+    abi: GluttonsABI,
+    address: gluttonAddress() as `0x${string}`,
+    functionName: 'getGameActiveStatus',
+  })
 
   const { data: foodSupply, refetch: sup } = useReadContract({
     abi: GluttonsFoodABI,
@@ -59,6 +64,7 @@ export default function Dashboard() {
     sup()
     Totalvotes()
     hasVote()
+    gluttonsGameStatus()
   }, [blockNumber])
 
   useEffect(() => {
@@ -67,7 +73,7 @@ export default function Dashboard() {
   }, [currentToken.id, foodSupply])
 
   function gluttonAddress() {
-    let gluttonadr = ""
+    let gluttonadr = GluttonsCurtis
     if (chainId == 33111) {
       gluttonadr = GluttonsCurtis
     } else {
@@ -153,6 +159,13 @@ export default function Dashboard() {
     getGluttonsFood()
   }, [foodSupply])
 
+  useEffect(() => {
+    if (gameStatus) {
+      getGluttonsFood()
+    }
+    console.log("game status", gameStatus)
+  }, [gameStatus])
+
   const mintWeek = () => {
     writeContract({
       abi: GluttonsABI,
@@ -234,137 +247,141 @@ export default function Dashboard() {
           <div data-w-id="dc5caad2-4c4b-df84-23ec-eb38be9d0261" className="layer-4-cave---wrapper"><img src="/images/FondoGluttons.png" loading="lazy" sizes="(max-width: 2029px) 100vw, 2029px" srcSet="/images/FondoGluttons-p-500.png 500w, images/FondoGluttons-p-800.png 800w, images/FondoGluttons-p-1080.png 1080w, images/FondoGluttons-p-1600.png 1600w, images/FondoGluttons-p-2000.png 2000w, images/FondoGluttons.png 2029w" alt="" className="layer-4-cave-background" /></div>
         </div>
         <Header />
-        <div className="game-wrapper wtf">
-          <div className="state1 wtf-text">
-            <div className="section1wtf dashboard">
-              <div className="state1-text wtf-text">FEED OR BURN</div>
-              <div className="state1-text general">Feed your Glutt-On today. <br />Miss it, and you&#x27;re out.</div>
-              <div className="_3stepplan">
-                <div className="steps">
-                  <div className="stepstext">1.BUY FOOD<br /></div>
-                </div>
-                <div className="steps">
-                  <div className="stepstext">2.FEED</div>
-                </div>
-                <div className="steps">
-                  <div className="stepstext">3.REPEAT </div>
-                </div>
-              </div>
-            </div>
-            <div className="divgamestatus">
-              <div className="div-gamestatus2">
-                <div className="pooldashboard">
-                  <div className="titlestextdashboard">ALIVE</div>
-                  <div className="divamountpool">
-                    <div className="textpool">{alivePetCount ? String(Number(alivePetCount)) : "0"}</div>
+        {gameStatus == true ? (
+
+
+          <div className="game-wrapper wtf">
+            <div className="state1 wtf-text">
+              <div className="section1wtf dashboard">
+                <div className="state1-text wtf-text">FEED OR BURN</div>
+                <div className="state1-text general">Feed your Glutt-On today. <br />Miss it, and you&#x27;re out.</div>
+                <div className="_3stepplan">
+                  <div className="steps">
+                    <div className="stepstext">1.BUY FOOD<br /></div>
                   </div>
-                </div>
-                <div className="pooldashboard">
-                  <div className="titlestextdashboard">PRIZE POOL</div>
-                  <div className="divamountpool">
-                    <div className="textpool">{realPool}</div>
-                    <div className="textpool">APE</div>
+                  <div className="steps">
+                    <div className="stepstext">2.FEED</div>
                   </div>
-                </div>
-                <div id="w-node-_9e032da3-e1e3-1095-a489-fc8634a1e5dc-74d14479" className="pooldashboard">
-                  <div className="titlestextdashboard">BURNED</div>
-                  <div className="divamountpool">
-                    <div className="textpool">{alivePetCount ? String(Number(totalMinted) - Number(alivePetCount)) : "0"}</div>
+                  <div className="steps">
+                    <div className="stepstext">3.REPEAT </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="dashboard">
-              <div className="foodinventory">
-                <div className="divtitle">
-                  <div className="titlerules">My Glutt-On</div>
+              <div className="divgamestatus">
+                <div className="div-gamestatus2">
+                  <div className="pooldashboard">
+                    <div className="titlestextdashboard">ALIVE</div>
+                    <div className="divamountpool">
+                      <div className="textpool">{alivePetCount ? String(Number(alivePetCount)) : "0"}</div>
+                    </div>
+                  </div>
+                  <div className="pooldashboard">
+                    <div className="titlestextdashboard">PRIZE POOL</div>
+                    <div className="divamountpool">
+                      <div className="textpool">{realPool}</div>
+                      <div className="textpool">APE</div>
+                    </div>
+                  </div>
+                  <div id="w-node-_9e032da3-e1e3-1095-a489-fc8634a1e5dc-74d14479" className="pooldashboard">
+                    <div className="titlestextdashboard">BURNED</div>
+                    <div className="divamountpool">
+                      <div className="textpool">{alivePetCount ? String(Number(totalMinted) - Number(alivePetCount)) : "0"}</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="gluttonsinventory">
-                  <div className="divfood glutqt">
-                    <div className="divcarrouselgluttons">
-                      <Carrousel />
-                      {/*<div className="divimages gluttonsimg"><img src="images/984.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="images/984-p-500.png 500w, images/984-p-800.png 800w, images/984-p-1080.png 1080w, images/984-p-1600.png 1600w, images/984.png 1999w" alt="" className="image-5 glutimage" /></div>
+              </div>
+              <div className="dashboard">
+                <div className="foodinventory">
+                  <div className="divtitle">
+                    <div className="titlerules">My Glutt-On</div>
+                  </div>
+                  <div className="gluttonsinventory">
+                    <div className="divfood glutqt">
+                      <div className="divcarrouselgluttons">
+                        <Carrousel />
+                        {/*<div className="divimages gluttonsimg"><img src="images/984.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="images/984-p-500.png 500w, images/984-p-800.png 800w, images/984-p-1080.png 1080w, images/984-p-1600.png 1600w, images/984.png 1999w" alt="" className="image-5 glutimage" /></div>
                       <div className="divimages gluttonsimg"><img src="images/983.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="images/983-p-500.png 500w, images/983-p-800.png 800w, images/983-p-1080.png 1080w, images/983-p-1600.png 1600w, images/983.png 1999w" alt="" className="image-5 glutimage" /></div>
                       <div className="divimages gluttonsimg"><img src="images/992.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="images/992-p-500.png 500w, images/992-p-800.png 800w, images/992-p-1080.png 1080w, images/992-p-1600.png 1600w, images/992.png 1999w" alt="" className="image-5 glutimage" /></div>
                       <div className="divimages gluttonsimg"><img src="images/985.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="images/985-p-500.png 500w, images/985-p-800.png 800w, images/985-p-1080.png 1080w, images/985-p-1600.png 1600w, images/985.png 1999w" alt="" className="image-5 glutimage" /></div>
                       <div className="divimages gluttonsimg"><img src="images/950.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="images/950-p-500.png 500w, images/950-p-800.png 800w, images/950-p-1080.png 1080w, images/950-p-1600.png 1600w, images/950.png 1999w" alt="" className="image-5 glutimage" /></div>*/}
-                    </div>
-                    {/*<MintModal />*/}
-                    <div className="mintanotherglutton">
-                      <MintModal />
-                    </div>
-                  </div>
-                  <div className="divglutselected">
-                    <div className="divmainglutton">
-                      {currentToken?.id == "" ? (<div className="divimagemainglutton statustext">SELECT YOUR GLUTTON{/*<img src="/images/928.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="/images/928-p-500.png 500w, images/928-p-800.png 800w, images/928-p-1080.png 1080w, images/928-p-1600.png 1600w, images/928.png 1999w" alt="" className="mainimageglutton" />*/}</div>) : (
-                        <div className="divimagemainglutton"><img src={"https://" + currentToken?.url} loading="lazy" alt="" className="mainimageglutton" /></div>
-                      )}
-                    </div>
-                    <div className="divgluttonstatus">
-                      <div className="statusglutton">
-                        <div className="statusinputs">
-                          <div className="statustext pt-2">ID:<span className="statustext ms-1">{currentToken.id == "" ? "" : currentToken.id}</span></div>
-                          <div className="statustext">STATUS:</div>
-                          <div className="statustext">Times Fed: <span className="statustext ms-1">{petTimesFed}</span></div>
-                          <div className={petFed ? "fedtext" : "fedtext2"}>{petFed ? "FED" : "STARVING"}</div>
-                        </div>
                       </div>
-                      <div className="feedglutton">
-                        {buttonClick && (<button className="mintbuttondiv feed" onClick={feedGlutton} disabled={petFed}>
-                          <div className="text-block-2">{petFed ? "WAIT" : "FEED"}</div>
-                        </button>)}
+                      {/*<MintModal />*/}
+                      <div className="mintanotherglutton content-center">
+                        <MintModal />
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="foodinventory">
-                <div className="divtitle">
-                  <div className="titlerules">Food Inventory</div>
-                </div>
-                <div className="div-block-10">
-                  <div className="divfood">
-                    <div className="divimages"><img src="/images/Glutton_Foodx7.png" loading="lazy" sizes="(max-width: 8534px) 100vw, 8534px" srcSet="/images/Glutton_Foodx7-p-500.png 500w, images/Glutton_Foodx7-p-800.png 800w, images/Glutton_Foodx7-p-1080.png 1080w, images/Glutton_Foodx7-p-1600.png 1600w, images/Glutton_Foodx7-p-2000.png 2000w, images/Glutton_Foodx7-p-2600.png 2600w, images/Glutton_Foodx7-p-3200.png 3200w, images/Glutton_Foodx7.png 8534w" alt="" className="image-5" />
-                      <div className="div-block-13">
-                        <button className="mintbuttondiv" onClick={mintWeek}>
-                          <div className="text-block-2">MINT</div>
-                        </button>
+                    <div className="divglutselected">
+                      <div className="divmainglutton">
+                        {currentToken?.id == "" ? (<div className="divimagemainglutton statustext">SELECT YOUR GLUTTON{/*<img src="/images/928.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="/images/928-p-500.png 500w, images/928-p-800.png 800w, images/928-p-1080.png 1080w, images/928-p-1600.png 1600w, images/928.png 1999w" alt="" className="mainimageglutton" />*/}</div>) : (
+                          <div className="divimagemainglutton"><img src={"https://" + currentToken?.url} loading="lazy" alt="" className="mainimageglutton" /></div>
+                        )}
                       </div>
-                    </div>
-                    <div className="divimages"><img src="/images/Glutton_Foodx14.png" loading="lazy" sizes="(max-width: 8534px) 100vw, 8534px" srcSet="/images/Glutton_Foodx14-p-500.png 500w, images/Glutton_Foodx14-p-800.png 800w, images/Glutton_Foodx14-p-1080.png 1080w, images/Glutton_Foodx14-p-1600.png 1600w, images/Glutton_Foodx14-p-2000.png 2000w, images/Glutton_Foodx14-p-2600.png 2600w, images/Glutton_Foodx14-p-3200.png 3200w, images/Glutton_Foodx14.png 8534w" alt="" className="image-5" />
-                      <div className="div-block-13">
-                        <button className="mintbuttondiv" onClick={mintMonth}>
-                          <div className="text-block-2">MINT</div>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="divfood secondpart">
-                    <div className="divseparation">
-                      <div className="divfoodinfo">
-                        <div className="textinputs">FOOD:  </div>
-                        <div className="text-block-3 ms-1">{tokens.length == 0 ? "0" : tokens.length}</div>
-                      </div>
-                      <div className="mintbuttondiv burnfood">
-                        <div className="text-block-2">Total votes:<span className="text-block-2 ms-1">{tVotes}</span> </div>
-                      </div>
-                    </div>
-                    <div className="divseparation">
-                      <div className="divtitle status">
-                        <div className="titlerules">Vote Status</div>
-                      </div>
-                      <div className="divstatuschange">
-                        <div className="divstatuscheck">
-                          <div className={vote ? "fedtext" : "fedtext2"}>{vote ? "TRUE" : "FALSE"}</div>
-                        </div>
-                        <div className="divstatuscheck">
-                          {!voteChecked && (
-                            <div className="splitdecision">
-                            <button className={buttonClick ? "splitbutton" : "text-red"} onClick={castVoteTrue} disabled={buttonClick ? false : true}>
-                              <div className="textsplit">Vote to Split</div>
-                            </button>
+                      <div className="divgluttonstatus">
+                        <div className="statusglutton">
+                          <div className="statusinputs">
+                            <div className="statustext pt-2">ID:<span className="statustext ms-1">{currentToken.id == "" ? "" : currentToken.id}</span></div>
+                            <div className="statustext">STATUS:</div>
+                            <div className="statustext">Times Fed: <span className="statustext ms-1">{petTimesFed}</span></div>
+                            <div className={petFed ? "fedtext" : "fedtext2"}>{petFed ? "FED" : "STARVING"}</div>
                           </div>
-                          )}
+                        </div>
+                        <div className="feedglutton">
+                          {buttonClick && (<button className="mintbuttondiv feed" onClick={feedGlutton} disabled={petFed}>
+                            <div className="text-block-2">{petFed ? "WAIT" : "FEED"}</div>
+                          </button>)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="foodinventory">
+                  <div className="divtitle">
+                    <div className="titlerules">Food Inventory</div>
+                  </div>
+                  <div className="div-block-10">
+                    <div className="divfood">
+                      <div className="divimages"><img src="/images/Glutton_Foodx7.png" loading="lazy" sizes="(max-width: 8534px) 100vw, 8534px" srcSet="/images/Glutton_Foodx7-p-500.png 500w, images/Glutton_Foodx7-p-800.png 800w, images/Glutton_Foodx7-p-1080.png 1080w, images/Glutton_Foodx7-p-1600.png 1600w, images/Glutton_Foodx7-p-2000.png 2000w, images/Glutton_Foodx7-p-2600.png 2600w, images/Glutton_Foodx7-p-3200.png 3200w, images/Glutton_Foodx7.png 8534w" alt="" className="image-5" />
+                        <div className="div-block-13">
+                          <button className="mintbuttondiv" onClick={mintWeek}>
+                            <div className="text-block-2">MINT</div>
+                          </button>
+                        </div>
+                      </div>
+                      <div className="divimages"><img src="/images/Glutton_Foodx14.png" loading="lazy" sizes="(max-width: 8534px) 100vw, 8534px" srcSet="/images/Glutton_Foodx14-p-500.png 500w, images/Glutton_Foodx14-p-800.png 800w, images/Glutton_Foodx14-p-1080.png 1080w, images/Glutton_Foodx14-p-1600.png 1600w, images/Glutton_Foodx14-p-2000.png 2000w, images/Glutton_Foodx14-p-2600.png 2600w, images/Glutton_Foodx14-p-3200.png 3200w, images/Glutton_Foodx14.png 8534w" alt="" className="image-5" />
+                        <div className="div-block-13">
+                          <button className="mintbuttondiv" onClick={mintMonth}>
+                            <div className="text-block-2">MINT</div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="divfood secondpart">
+                      <div className="divseparation">
+                        <div className="divfoodinfo">
+                          <div className="textinputs">FOOD:  </div>
+                          <div className="text-block-3 ms-1">{tokens.length == 0 ? "0" : tokens.length}</div>
+                        </div>
+                        <div className="mintbuttondiv burnfood">
+                          <div className="text-block-2">Total votes:<span className="text-block-2 ms-1">{tVotes}</span> </div>
+                        </div>
+                      </div>
+                      <div className="divseparation">
+                        <div className="divtitle status">
+                          <div className="titlerules">Vote Status</div>
+                        </div>
+                        <div className="divstatuschange">
+                          <div className="divstatuscheck">
+                            <div className={vote ? "fedtext" : "fedtext2"}>{vote ? "TRUE" : "FALSE"}</div>
+                          </div>
+                          <div className="divstatuscheck">
+                            {!voteChecked && (
+                              <div className="splitdecision">
+                                <button className={buttonClick ? "splitbutton" : "text-red"} onClick={castVoteTrue} disabled={buttonClick ? false : true}>
+                                  <div className="textsplit">Vote to Split</div>
+                                </button>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -373,7 +390,19 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        </div>
+
+        ) : (
+          <div className="section1wtf dashboard text-center p-2">
+            <div className="state1-text wtf-text text-white mt-10">Gluttons Game</div>
+            <div className="_3stepplan mt-10">
+
+              <div className="steps">
+                <div className="stepstext">Ended</div>
+              </div>
+            </div>
+          </div>
+        )
+        }
       </div>
     </main>
   );

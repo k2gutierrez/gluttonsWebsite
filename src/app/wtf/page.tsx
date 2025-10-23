@@ -104,7 +104,7 @@ export default function Wtf() {
               </div>
             </div>
             <div className="btn-container">
-              <a href="#" className="btnx w-button">MINT<br /></a>
+              <a href="/" className="btnx w-button">HOME<br /></a>
             </div>
           </div>
         </div>
