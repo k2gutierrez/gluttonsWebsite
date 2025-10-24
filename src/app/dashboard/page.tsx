@@ -339,7 +339,7 @@ export default function Dashboard() {
                           </button>
                         </div>
                       </div>
-                      <div className="divimages p-2"><img src="/images/Glutton_Foodx14.png" loading="lazy" sizes="(max-width: 8534px) 100vw, 8534px" srcSet="/images/Glutton_Foodx14-p-500.png 500w, images/Glutton_Foodx14-p-800.png 800w, images/Glutton_Foodx14-p-1080.png 1080w, images/Glutton_Foodx14-p-1600.png 1600w, images/Glutton_Foodx14-p-2000.png 2000w, images/Glutton_Foodx14-p-2600.png 2600w, images/Glutton_Foodx14-p-3200.png 3200w, images/Glutton_Foodx14.png 8534w" alt="" className="image-5 p-1" />
+                      <div className="divimages p-2"><img src="/GluttonFood30.png" loading="lazy" sizes="(max-width: 8534px) 100vw, 8534px"  alt="" className="image-5 p-1" /> {/*srcSet="/images/Glutton_Foodx14-p-500.png 500w, images/Glutton_Foodx14-p-800.png 800w, images/Glutton_Foodx14-p-1080.png 1080w, images/Glutton_Foodx14-p-1600.png 1600w, images/Glutton_Foodx14-p-2000.png 2000w, images/Glutton_Foodx14-p-2600.png 2600w, images/Glutton_Foodx14-p-3200.png 3200w, images/Glutton_Foodx14.png 8534w"*/}
                         <div className="div-block-13">
                           <button className="mintbuttondiv" onClick={mintMonth}>
                             <div className="text-block-2">MINT</div>
