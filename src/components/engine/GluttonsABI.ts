@@ -1054,6 +1054,11 @@ export const GluttonsABI = [
         },
         {
             "type": "error",
+            "name": "Gluttons_VotingNotAllowed",
+            "inputs": []
+        },
+        {
+            "type": "error",
             "name": "Gluttons__AlreadyVoted",
             "inputs": []
         },
