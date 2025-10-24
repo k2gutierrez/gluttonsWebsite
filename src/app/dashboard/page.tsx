@@ -11,6 +11,7 @@ import { CurrentToken } from "@/components/engine/atoms";
 import axios from "axios";
 import Header from "@/components/Header";
 import MintModal from "@/components/MintModal";
+import { GetTokensFood } from "@/components/engine/GetTokens";
 
 export default function Dashboard() {
 
@@ -217,33 +218,18 @@ export default function Dashboard() {
 
   async function getGluttonsFood() {
 
-    const gluttons_curtis = `https://api-curtis.reservoir.tools/users/${address}/tokens/v10?contract=${GluttonsFoodCurtis}&sortDirection=asc&limit=200`
-    const gluttons_ape = `https://api-apechain.reservoir.tools/users/${address}/tokens/v10?contract=${GluttonsFood}&sortDirection=asc&limit=200`
-    //api-apechain
-    let adrr = ""
-    if (chainId == 33111) {
-      adrr = gluttons_curtis
-    } else {
-      adrr = gluttons_ape
+    try {
+      let tokensArr: number[] = []
+      const data1 = await GetTokensFood(chainId, address as `0x${string}`)
+
+      for (let i = 0; i < data1.length; i++) {
+        tokensArr.push(Number(data1[i].tokenID))
+      }
+      setTokens(tokensArr)
+    } catch (e) {
+      console.error(e)
     }
 
-    const options = {
-      method: 'GET',
-      url: adrr,
-      headers: { accept: '*/*', 'x-api-key': process.env.NEXT_PUBLIC_RESERVOIR }
-    };
-
-    axios
-      .request(options)
-      .then(res => {
-        let tokensArr: number[] = []
-        let data1 = res.data
-        for (let i = 0; i < data1.tokens.length; i++) {
-          tokensArr.push(data1.tokens[i].token.tokenId)
-        }
-        setTokens(tokensArr)
-      })
-      .catch(err => console.error(err));
   }
 
   return (
@@ -325,16 +311,17 @@ export default function Dashboard() {
                           <div className="divimagemainglutton md:p-5"><img src={"https://" + currentToken?.url} loading="lazy" alt="" className="mainimageglutton" /></div>
                         )}
                       </div>
-                      <div className="divgluttonstatus content-center w-2/3  md:text-base text-sm">
+                      <div className="divgluttonstatus content-center w-2/3  md:text-base text-sm text-center">
                         <p className="statustext  md:text-base text-sm">ID:<span className="statustext ms-1  md:text-base text-sm">{currentToken.id == "" ? "" : currentToken.id}</span></p>
 
                         <p className="statustext  md:text-base text-sm">Times Fed: <span className="statustext ms-1  md:text-base text-sm">{petTimesFed}</span></p>
                         <p className={petFed ? "fedtext md:text-lg text-base" : "fedtext2 md:text-lg text-base"}>{petFed ? "FED" : "STARVING"}</p>
-                        <div className="feedglutton">
-                          {buttonClick && (<button className="mintbuttondiv feed" onClick={feedGlutton} disabled={petFed}>
-                            <div className="md:text-lg text-base">{petFed ? "WAIT" : "FEED"}</div>
-                          </button>)}
-                        </div>
+                        
+                        {buttonClick && (
+                          <button className="mb-1 bg-black border border-solid border-blue-400 rounded-md px-2" onClick={feedGlutton} disabled={petFed}>
+                          <div className="md:text-lg text-base">{petFed ? "WAIT" : "FEED"}</div>
+                        </button>)}
+                        
                       </div>
                     </div>
                   </div>

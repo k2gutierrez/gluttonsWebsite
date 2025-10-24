@@ -16,6 +16,7 @@ import 'swiper/css/pagination';
 import 'swiper/swiper-bundle.css'
 import { Tokens, CurrentToken } from "./engine/atoms";
 import { useAtom } from "jotai";
+import { GetTokens } from "./engine/GetTokens";
 
 export default function Carrousel() {
 
@@ -82,39 +83,23 @@ export default function Carrousel() {
 
     async function getGluttons() {
 
-        const gluttons_curtis = `https://api-curtis.reservoir.tools/users/${address}/tokens/v10?contract=${GluttonsCurtis}&sortDirection=asc&limit=200`
-        const gluttons_ape = `https://api-apechain.reservoir.tools/users/${address}/tokens/v10?contract=${Gluttons}&sortDirection=asc&limit=200`
-        //api-apechain
-        let adrr = ""
-        if (chainId == 33111) {
-            adrr = gluttons_curtis
-        } else {
-            adrr = gluttons_ape
-        }
-
         let tokensArr: Token[] = []
 
-        const options = {
-            method: 'GET',
-            url: adrr,
-            headers: { accept: '*/*', 'x-api-key': process.env.NEXT_PUBLIC_RESERVOIR }
-        };
+        try {
+            const data1 = await GetTokens(chainId, address as `0x${string}`)
 
-        axios
-            .request(options)
-            .then(res => {
-                let data1 = res.data
-                for (let i = 0; i < data1.tokens.length; i++) {
-                    let info: Token = {
-                        id: data1.tokens[i].token.tokenId,
-                        url: "",
-                        status: false
-                    }
-                    tokensArr.push(info)
+            for (let i = 0; i < data1.length; i++) {
+                let info: Token = {
+                    id: data1[i].tokenID as string,
+                    url: "",
+                    status: false
                 }
-                setTokens(tokensArr)
-            })
-            .catch(err => console.error(err));
+                tokensArr.push(info)
+            }
+            setTokens(tokensArr)
+        } catch(e) {
+            console.error(e)
+        }
     }
 
     async function getURI() {
@@ -166,45 +151,45 @@ export default function Carrousel() {
 
     return (
         <>
-            
-                <Swiper
-                    modules={[Navigation, Pagination]}
-                    spaceBetween={1}
-                    slidesPerView={4}
-                    breakpoints={{
-                        640: {
-                            slidesPerView: 2,
-                        },
-                        1024: {
-                            slidesPerView: 4,
-                        },
-                    }}
-                    navigation={true}
-                    pagination={true}
 
-                    className="mySwiper"
-                >
-                    {
-                        tokensAtom.map((data, index) => (
+            <Swiper
+                modules={[Navigation, Pagination]}
+                spaceBetween={1}
+                slidesPerView={4}
+                breakpoints={{
+                    640: {
+                        slidesPerView: 2,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                    },
+                }}
+                navigation={true}
+                pagination={true}
 
-                            <SwiperSlide className="cursor-pointer" key={index} onClick={() => {
-                                currentToken.status = false
-                                data.status = true
-                                setCurrentToken(data)
-                            }}>
-                                
+                className="mySwiper"
+            >
+                {
+                    tokensAtom.map((data, index) => (
 
-                                    <img
-                                        src={"https://" + data.url}
-                                        alt={`Slide ${index}`}
-                                        className={data.status ? "w-full h-full object-cover border-4 border-solid border-blue-600 rounded-full" : "w-full h-full object-cover"}
-                                    />
+                        <SwiperSlide className="cursor-pointer" key={index} onClick={() => {
+                            currentToken.status = false
+                            data.status = true
+                            setCurrentToken(data)
+                        }}>
 
-                                
-                            </SwiperSlide>
-                        ))}
-                </Swiper>
-            
+
+                            <img
+                                src={"https://" + data.url}
+                                alt={`Slide ${index}`}
+                                className={data.status ? "w-full h-full object-cover border-4 border-solid border-blue-600 rounded-full" : "w-full h-full object-cover"}
+                            />
+
+
+                        </SwiperSlide>
+                    ))}
+            </Swiper>
+
         </>
     );
 }
