@@ -667,7 +667,7 @@ img {
   background-color: var(--background-dark);
   border: 1px #3898ec;
   border-radius: 4px;
-  width: 12.9164%;
+  width: 30%; /*12.9164%*/
   padding: 8px;
 }
 
@@ -864,7 +864,7 @@ img {
 }
 
 .divfood.glutqt {
-  height: 25%;
+  height: 30%;
 }
 
 .divimages {
@@ -903,7 +903,6 @@ img {
   justify-content: center;
   align-items: center;
   width: 35%;
-  height: 100%;
   display: flex;
 }
 
@@ -956,14 +955,15 @@ img {
 }
 
 .gluttonsinventory {
-  grid-column-gap: 5px;
-  grid-row-gap: 5px;
+  /*grid-column-gap: 5px; 
+  grid-row-gap: 5px; 
   flex-flow: column;
+  display: flex;*/
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 85%;
-  display: flex;
+  
 }
 
 .divglutselected {
@@ -972,7 +972,7 @@ img {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 75%;
+  height: 70%;
   padding: 5px;
   display: flex;
 }
@@ -985,12 +985,6 @@ img {
   display: flex;
 }
 
-.mintanotherglutton {
-  width: 20%;
-  height: 100%;
-  
-}
-
 .swiper-slide, .swiper-slide * {
     pointer-events: auto !important;
 }
@@ -1001,12 +995,12 @@ img {
 
 .divmainglutton {
   border-radius: 4px;
-  width: 50%;
+
   height: 100%;
 }
 
 .divgluttonstatus {
-  width: 50%;
+
   height: 100%;
 }
 
@@ -1047,11 +1041,6 @@ img {
   width: 100%;
   height: 100%;
   display: flex;
-}
-
-.statustext {
-  color: #3898ec;
-  font-size: 20px;
 }
 
 .fedtext {
@@ -1351,7 +1340,7 @@ img {
     font-size: 15px;
   }
 
-  .textinputs, .statustext {
+  .textinputs {
     font-size: 20px;
   }
 
@@ -1557,9 +1546,10 @@ img {
   }
 
   .statustext {
-    width: 100%;
-    height: auto;
-    font-size: 20px;
+    /*width: 100%;
+    height: auto;*/
+    margin: 0;
+    color: #3898ec;
   }
 
   .fedtext.onoff {
@@ -1981,11 +1971,6 @@ img {
     padding-top: 5px;
   }
 
-  .mintanotherglutton {
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
   .mainimageglutton {
     width: 100%;
     height: 100%;
@@ -1994,10 +1979,6 @@ img {
   .feedglutton {
     padding-top: 15px;
     padding-bottom: 15px;
-  }
-
-  .statustext {
-    font-size: 14px;
   }
 
   .divgamestatus {

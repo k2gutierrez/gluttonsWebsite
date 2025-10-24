@@ -35,11 +35,11 @@ export default function Home() {
     prize()
   }, [blockNumber])
 
-  // useEffect(() => {
-  //   if (isConnected) {
-  //     router.push("/dashboard")
-  //   }
-  // }, [isConnected])
+  useEffect(() => {
+    if (isConnected) {
+      router.push("/dashboard")
+    }
+  }, [isConnected])
 
   /*useEffect(() => {
 
@@ -108,7 +108,7 @@ export default function Home() {
               </div>
             </div>
             <div className="section-2-landing">
-              <div className="state1-text general">Mint your shot at 100k APE</div>
+              <div className="state1-text general">Mint your chance to win the POT</div>
               <div className="grid grid-cols-1 md:grid-cols-2 place-content-stretch gap-2" > {/**btn-container */}
                 <div className=""><ConnectButton label="ConNECT" /></div>
                 <div><a href="wtf" className="btn- w-button">RULES</a></div>

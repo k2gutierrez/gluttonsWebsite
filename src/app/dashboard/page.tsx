@@ -295,8 +295,8 @@ export default function Dashboard() {
                   <div className="divtitle">
                     <div className="titlerules">My Glutt-On</div>
                   </div>
-                  <div className="gluttonsinventory">
-                    <div className="divfood glutqt">
+                  <div className="gluttonsinventory flex flex-wrap">
+                    <div className="divfood glutqt mb-1">
                       <div className="divcarrouselgluttons">
                         <Carrousel />
                         {/*<div className="divimages gluttonsimg"><img src="images/984.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="images/984-p-500.png 500w, images/984-p-800.png 800w, images/984-p-1080.png 1080w, images/984-p-1600.png 1600w, images/984.png 1999w" alt="" className="image-5 glutimage" /></div>
@@ -306,25 +306,21 @@ export default function Dashboard() {
                       <div className="divimages gluttonsimg"><img src="images/950.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="images/950-p-500.png 500w, images/950-p-800.png 800w, images/950-p-1080.png 1080w, images/950-p-1600.png 1600w, images/950.png 1999w" alt="" className="image-5 glutimage" /></div>*/}
                       </div>
                       {/*<MintModal />*/}
-                      <div className="mintanotherglutton content-center">
+                      <div className="content-center">
                         <MintModal />
                       </div>
                     </div>
-                    <div className="divglutselected">
-                      <div className="divmainglutton">
-                        {currentToken?.id == "" ? (<div className="divimagemainglutton statustext">SELECT YOUR GLUTTON{/*<img src="/images/928.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="/images/928-p-500.png 500w, images/928-p-800.png 800w, images/928-p-1080.png 1080w, images/928-p-1600.png 1600w, images/928.png 1999w" alt="" className="mainimageglutton" />*/}</div>) : (
-                          <div className="divimagemainglutton"><img src={"https://" + currentToken?.url} loading="lazy" alt="" className="mainimageglutton" /></div>
+                    <div className="divglutselected mb-1 flex-wrap">
+                      <div className="divmainglutton w-1/3">
+                        {currentToken?.id == "" ? (<div className="divimagemainglutton statustext md:p-5 md:text-base text-sm">SELECT YOUR GLUTTON{/*<img src="/images/928.png" loading="lazy" sizes="(max-width: 1999px) 100vw, 1999px" srcSet="/images/928-p-500.png 500w, images/928-p-800.png 800w, images/928-p-1080.png 1080w, images/928-p-1600.png 1600w, images/928.png 1999w" alt="" className="mainimageglutton" />*/}</div>) : (
+                          <div className="divimagemainglutton md:p-5"><img src={"https://" + currentToken?.url} loading="lazy" alt="" className="mainimageglutton" /></div>
                         )}
                       </div>
-                      <div className="divgluttonstatus">
-                        <div className="statusglutton">
-                          <div className="statusinputs">
-                            <div className="statustext pt-2">ID:<span className="statustext ms-1">{currentToken.id == "" ? "" : currentToken.id}</span></div>
-                            <div className="statustext">STATUS:</div>
-                            <div className="statustext">Times Fed: <span className="statustext ms-1">{petTimesFed}</span></div>
-                            <div className={petFed ? "fedtext" : "fedtext2"}>{petFed ? "FED" : "STARVING"}</div>
-                          </div>
-                        </div>
+                      <div className="divgluttonstatus w-2/3  md:text-base text-sm">
+                        <p className="statustext  md:text-base text-sm">ID:<span className="statustext ms-1  md:text-base text-sm">{currentToken.id == "" ? "" : currentToken.id}</span></p>
+
+                        <p className="statustext  md:text-base text-sm">Times Fed: <span className="statustext ms-1  md:text-base text-sm">{petTimesFed}</span></p>
+                        <p className={petFed ? "fedtext" : "fedtext2"}>{petFed ? "FED" : "STARVING"}</p>
                         <div className="feedglutton">
                           {buttonClick && (<button className="mintbuttondiv feed" onClick={feedGlutton} disabled={petFed}>
                             <div className="text-block-2">{petFed ? "WAIT" : "FEED"}</div>
