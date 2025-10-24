@@ -9,6 +9,11 @@ import { WagmiProvider, createConfig, http, Transport, webSocket } from "wagmi";
 import { Chain } from "viem";
 import { apeChain, curtis, anvil } from "wagmi/chains";
 import { useState, type ReactNode } from "react";
+import {
+    rainbowWallet,
+    walletConnectWallet,
+    metaMaskWallet
+} from '@rainbow-me/rainbowkit/wallets';
 import "@rainbow-me/rainbowkit/styles.css"
 
 export function Providers(props: { children: ReactNode }) {
@@ -18,14 +23,16 @@ export function Providers(props: { children: ReactNode }) {
 
     const connectors = connectorsForWallets(
         [
+
             {
-                groupName: glyphConnectorDetails.name,
-                wallets: [glyphWalletRK],
+                groupName: 'Recommended',
+                wallets: [rainbowWallet, walletConnectWallet, metaMaskWallet],
             },
+
         ],
         {
-            appName: glyphConnectorDetails.name,
-            projectId: glyphConnectorDetails.id,
+            appName: "Mingles",
+            projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
         },
     );
 
@@ -42,7 +49,7 @@ export function Providers(props: { children: ReactNode }) {
         [curtis.id]: webSocket(curtisWebsocket) || http(curtisRpcUrl),
 
         // Use a local transport for development chains like Anvil
-        [anvil.id]:  http("https://localhost:8545"),
+        [anvil.id]: http("https://localhost:8545"),
 
         // Include WebSocket transport for real-time event subscriptions, if supported
         // [apeChain.id]: webSocket(`wss://base-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
@@ -66,7 +73,7 @@ export function Providers(props: { children: ReactNode }) {
             acc[chain.id] = http();
             return acc;
         }, {} as Record<number, Transport>),
-        //connectors,
+        connectors,
     })
 
     return (
@@ -78,9 +85,9 @@ export function Providers(props: { children: ReactNode }) {
                         walletClientType={WalletClientType.RAINBOWKIT}
                         askForSignature={true}
                     >*/}
-                        <JotaiProviders>
-                            {props.children}
-                        </JotaiProviders>
+                    <JotaiProviders>
+                        {props.children}
+                    </JotaiProviders>
                     {/*</GlyphProvider>*/}
                 </RainbowKitProvider>
             </QueryClientProvider>
