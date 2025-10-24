@@ -79,32 +79,6 @@ export default function Carrousel() {
         return gluttonadr
     }
 
-    async function fetchMyNFTs() {
-        // The parameters from your original URL
-        let adrr = ""
-        if (chainId == 33111) {
-            adrr = GluttonsCurtis
-        } else {
-            adrr = Gluttons
-        }
-
-        // ✅ This request goes to YOUR backend (http://localhost:3000/api/get-nfts)
-        // No CORS error!
-        const response = await fetch(`/api/get-nfts?userAddress=${address}&contractAddress=${adrr}&chainId=${chainId}`);
-        
-        if (!response.ok) {
-            console.error("Failed to fetch NFTs");
-            // Handle error
-            return;
-        }
-
-        const data = await response;
-        
-        console.log("My NFTs:", data);
-        return data
-        // Set your state, etc.
-    }
-
     async function getGluttons() {
 
         const gluttons_curtis = `https://api-curtis.reservoir.tools/users/${address}/tokens/v10?contract=${GluttonsCurtis}&sortDirection=asc&limit=200`
