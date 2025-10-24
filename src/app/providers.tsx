@@ -66,22 +66,22 @@ export function Providers(props: { children: ReactNode }) {
             acc[chain.id] = http();
             return acc;
         }, {} as Record<number, Transport>),
-        connectors,
+        //connectors,
     })
 
     return (
         <WagmiProvider config={wagmiConfig}>
             <QueryClientProvider client={queryClient}>
                 <RainbowKitProvider theme={darkTheme({ accentColor: '#3898ec', borderRadius: "none" })}> {/*accentColorForeground: "black", accentColor: 'transparent'*/}
-                    <GlyphProvider
+                    {/*<GlyphProvider
                         strategy={StrategyType.EIP1193}
                         walletClientType={WalletClientType.RAINBOWKIT}
                         askForSignature={true}
-                    >
+                    >*/}
                         <JotaiProviders>
                             {props.children}
                         </JotaiProviders>
-                    </GlyphProvider>
+                    {/*</GlyphProvider>*/}
                 </RainbowKitProvider>
             </QueryClientProvider>
         </WagmiProvider>
