@@ -25,12 +25,21 @@ export default function Dashboard() {
   const [tokens, setTokens] = useState<number[]>([])
   let tVotes: number = 0
   let voteChecked = false
+  let allGameStatus: Boolean = true
 
   const { data: gameStatus, refetch: gluttonsGameStatus } = useReadContract({
     abi: GluttonsABI,
     address: gluttonAddress() as `0x${string}`,
     functionName: 'getGameActiveStatus',
   })
+
+  if (gameStatus != undefined) {
+    allGameStatus = Boolean(gameStatus)
+  }
+
+  if (gameStatus != null) {
+    allGameStatus = Boolean(gameStatus)
+  }
 
   const { data: foodSupply, refetch: sup } = useReadContract({
     abi: GluttonsFoodABI,
@@ -247,7 +256,7 @@ export default function Dashboard() {
           <div data-w-id="dc5caad2-4c4b-df84-23ec-eb38be9d0261" className="layer-4-cave---wrapper"><img src="/images/FondoGluttons.png" loading="lazy" sizes="(max-width: 2029px) 100vw, 2029px" srcSet="/images/FondoGluttons-p-500.png 500w, images/FondoGluttons-p-800.png 800w, images/FondoGluttons-p-1080.png 1080w, images/FondoGluttons-p-1600.png 1600w, images/FondoGluttons-p-2000.png 2000w, images/FondoGluttons.png 2029w" alt="" className="layer-4-cave-background" /></div>
         </div>
         <Header />
-        {gameStatus == true ? (
+        {allGameStatus == true ? (
 
 
           <div className="game-wrapper wtf">
@@ -316,14 +325,14 @@ export default function Dashboard() {
                           <div className="divimagemainglutton md:p-5"><img src={"https://" + currentToken?.url} loading="lazy" alt="" className="mainimageglutton" /></div>
                         )}
                       </div>
-                      <div className="divgluttonstatus w-2/3  md:text-base text-sm">
+                      <div className="divgluttonstatus content-center w-2/3  md:text-base text-sm">
                         <p className="statustext  md:text-base text-sm">ID:<span className="statustext ms-1  md:text-base text-sm">{currentToken.id == "" ? "" : currentToken.id}</span></p>
 
                         <p className="statustext  md:text-base text-sm">Times Fed: <span className="statustext ms-1  md:text-base text-sm">{petTimesFed}</span></p>
-                        <p className={petFed ? "fedtext" : "fedtext2"}>{petFed ? "FED" : "STARVING"}</p>
+                        <p className={petFed ? "fedtext md:text-lg text-base" : "fedtext2 md:text-lg text-base"}>{petFed ? "FED" : "STARVING"}</p>
                         <div className="feedglutton">
                           {buttonClick && (<button className="mintbuttondiv feed" onClick={feedGlutton} disabled={petFed}>
-                            <div className="text-block-2">{petFed ? "WAIT" : "FEED"}</div>
+                            <div className="md:text-lg text-base">{petFed ? "WAIT" : "FEED"}</div>
                           </button>)}
                         </div>
                       </div>
@@ -335,15 +344,15 @@ export default function Dashboard() {
                     <div className="titlerules">Food Inventory</div>
                   </div>
                   <div className="div-block-10">
-                    <div className="divfood">
-                      <div className="divimages"><img src="/images/Glutton_Foodx7.png" loading="lazy" sizes="(max-width: 8534px) 100vw, 8534px" srcSet="/images/Glutton_Foodx7-p-500.png 500w, images/Glutton_Foodx7-p-800.png 800w, images/Glutton_Foodx7-p-1080.png 1080w, images/Glutton_Foodx7-p-1600.png 1600w, images/Glutton_Foodx7-p-2000.png 2000w, images/Glutton_Foodx7-p-2600.png 2600w, images/Glutton_Foodx7-p-3200.png 3200w, images/Glutton_Foodx7.png 8534w" alt="" className="image-5" />
+                    <div className="divfood p-1">
+                      <div className="divimages mb-1 p-2"><img src="/images/Glutton_Foodx7.png" loading="lazy" sizes="(max-width: 8534px) 100vw, 8534px" srcSet="/images/Glutton_Foodx7-p-500.png 500w, images/Glutton_Foodx7-p-800.png 800w, images/Glutton_Foodx7-p-1080.png 1080w, images/Glutton_Foodx7-p-1600.png 1600w, images/Glutton_Foodx7-p-2000.png 2000w, images/Glutton_Foodx7-p-2600.png 2600w, images/Glutton_Foodx7-p-3200.png 3200w, images/Glutton_Foodx7.png 8534w" alt="" className="image-5 p-1" />
                         <div className="div-block-13">
                           <button className="mintbuttondiv" onClick={mintWeek}>
                             <div className="text-block-2">MINT</div>
                           </button>
                         </div>
                       </div>
-                      <div className="divimages"><img src="/images/Glutton_Foodx14.png" loading="lazy" sizes="(max-width: 8534px) 100vw, 8534px" srcSet="/images/Glutton_Foodx14-p-500.png 500w, images/Glutton_Foodx14-p-800.png 800w, images/Glutton_Foodx14-p-1080.png 1080w, images/Glutton_Foodx14-p-1600.png 1600w, images/Glutton_Foodx14-p-2000.png 2000w, images/Glutton_Foodx14-p-2600.png 2600w, images/Glutton_Foodx14-p-3200.png 3200w, images/Glutton_Foodx14.png 8534w" alt="" className="image-5" />
+                      <div className="divimages p-2"><img src="/images/Glutton_Foodx14.png" loading="lazy" sizes="(max-width: 8534px) 100vw, 8534px" srcSet="/images/Glutton_Foodx14-p-500.png 500w, images/Glutton_Foodx14-p-800.png 800w, images/Glutton_Foodx14-p-1080.png 1080w, images/Glutton_Foodx14-p-1600.png 1600w, images/Glutton_Foodx14-p-2000.png 2000w, images/Glutton_Foodx14-p-2600.png 2600w, images/Glutton_Foodx14-p-3200.png 3200w, images/Glutton_Foodx14.png 8534w" alt="" className="image-5 p-1" />
                         <div className="div-block-13">
                           <button className="mintbuttondiv" onClick={mintMonth}>
                             <div className="text-block-2">MINT</div>
@@ -367,13 +376,13 @@ export default function Dashboard() {
                         </div>
                         <div className="divstatuschange">
                           <div className="divstatuscheck">
-                            <div className={vote ? "fedtext" : "fedtext2"}>{vote ? "TRUE" : "FALSE"}</div>
+                            <div className={vote ? "fedtext md:text-lg text-base" : "fedtext2 md:text-lg text-base"}>{vote ? "TRUE" : "FALSE"}</div>
                           </div>
-                          <div className="divstatuscheck">
+                          <div className="divstatuscheck p-1">
                             {!voteChecked && (
-                              <div className="splitdecision">
-                                <button className={buttonClick ? "splitbutton" : "text-red"} onClick={castVoteTrue} disabled={buttonClick ? false : true}>
-                                  <div className="textsplit">Vote to Split</div>
+                              <div className="textsplit md:text-lg text-xs border border-solid border-blue-400 rounded-md">
+                                <button className={buttonClick ? "content-center " : "text-red"} onClick={castVoteTrue} disabled={buttonClick ? false : true}>
+                                  Vote Split
                                 </button>
                               </div>
                             )}

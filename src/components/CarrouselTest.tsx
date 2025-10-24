@@ -25,6 +25,8 @@ export default function Carrousel() {
         status: boolean
     }
 
+    let stat = false
+
     const [error, setError] = useState('');
     const [currentToken, setCurrentToken] = useAtom(CurrentToken)
     const [tokensAtom, setTokenAtom] = useAtom(Tokens)
@@ -173,7 +175,7 @@ export default function Carrousel() {
                     slidesPerView={4}
                     breakpoints={{
                         640: {
-                            slidesPerView: 2,
+                            slidesPerView: 1,
                         },
                         1024: {
                             slidesPerView: 4,
@@ -184,25 +186,24 @@ export default function Carrousel() {
 
                     className="mySwiper"
                 >
-                    {
-                        tokensAtom.map((data, index) => (
+                    
 
-                            <SwiperSlide className="cursor-pointer" key={index} onClick={() => {
+                            <SwiperSlide className="cursor-pointer" key={0} onClick={() => {
                                 currentToken.status = false
-                                data.status = true
-                                setCurrentToken(data)
+                                
                             }}>
                                 
 
                                     <img
-                                        src={"https://" + data.url}
-                                        alt={`Slide ${index}`}
-                                        className={data.status ? "w-full h-full object-cover border-4 border-solid border-blue-600 rounded-full" : "w-full h-full object-cover"}
+                                        src={"https://gluttons.fun/images/992.png"}
+                                        alt={"`Slide ${index}`"}
+                                        
+                                        className={stat ? "object-cover border-4 border-solid border-blue-600 rounded-full" : "w-full h-full object-cover"}
                                     />
 
                                 
                             </SwiperSlide>
-                        ))}
+                    
                 </Swiper>
             
         </>

@@ -7,7 +7,7 @@ import { parseEther } from "viem";
 
 export default function MintModal() {
     const [isOpen, setIsOpen] = useState(false);
-    const [numTokens, setNumTokens] = useState<string>("0")
+    const [numTokens, setNumTokens] = useState<string>("1")
     const [confirmed, setConfirmed] = useState(false)
     const { isConnected, address } = useAccount()
     const chainId = useChainId()
@@ -86,7 +86,7 @@ export default function MintModal() {
                 <div className="fixed inset-0 z-50 flex items-center text-center justify-center">
                     <div className={"mx-8 p-6 rounded-lg shadow-lg w-96 transform transition-transform scale-95 hover:scale-100 bg-black bg-opacity-70"}>
                         <p className='text-md md:text-xl font-[family-name:var(--font-hogfish)]'>
-                            Mint GlutOns
+                            Mint Gluttons
                         </p>
                         {confirmed && (<>
                             <p className='text-md md:text-xl text-blue-400 font-[family-name:var(--font-hogfish)]'>MINT SUCCESSFUL!</p>
@@ -100,7 +100,7 @@ export default function MintModal() {
                         </>
                         )}
                         {!confirmed && !isLoading && (<><div className="">
-                            <input type="number" value={numTokens} className="text-center text-black" onChange={(e) => setNumTokens((e.target.value))} />
+                            <input type="number" min={"1"} value={numTokens} className="text-center text-black" onChange={(e) => setNumTokens((e.target.value))} />
                             <button
                                 onClick={mintGlutton}
                                 className={"px-3 py-2 my-4 rounded hover:bg-blue-600 border border-solid border-blue-400"}

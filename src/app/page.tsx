@@ -110,7 +110,7 @@ export default function Home() {
             <div className="section-2-landing">
               <div className="state1-text general">Mint your chance to win the POT</div>
               <div className="grid grid-cols-1 md:grid-cols-2 place-content-stretch gap-2" > {/**btn-container */}
-                <div className=""><ConnectButton label="ConNECT" /></div>
+                <div className=""><ConnectButton label="CONNECT" /></div>
                 <div><a href="wtf" className="btn- w-button">RULES</a></div>
                 
               </div>
