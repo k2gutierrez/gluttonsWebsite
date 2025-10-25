@@ -104,7 +104,7 @@ export default function Home() {
               <div className="timer">
                 <div className="gameclocktext">GAME STARTS</div>
                 {/*<div className="timertext">100:00:00</div>*/}
-                <div className="gameclocktext">OCT/31/25</div>
+                <div className="gameclocktext">NOV/07/25</div>
               </div>
             </div>
             <div className="section-2-landing">
