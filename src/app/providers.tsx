@@ -19,7 +19,7 @@ import "@rainbow-me/rainbowkit/styles.css"
 export function Providers(props: { children: ReactNode }) {
     const [queryClient] = useState(() => new QueryClient())
 
-    const supportedChains: [Chain, ...Chain[]] = [apeChain, curtis, anvil];
+    const supportedChains: [Chain, ...Chain[]] = [apeChain, curtis];
 
     const connectors = connectorsForWallets(
         [
@@ -56,25 +56,25 @@ export function Providers(props: { children: ReactNode }) {
         // ...
     };
 
-    // const wagmiConfig = createConfig({
-    //     //appName: "Mingles",
-    //     //projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
-    //     chains: supportedChains,
-    //     transports: wagmiTransports,
-    //     connectors,
-    //     syncConnectedChain: true
-    // })
-
     const wagmiConfig = createConfig({
         //appName: "Mingles",
         //projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
         chains: supportedChains,
-        transports: supportedChains.reduce((acc, chain) => {
-            acc[chain.id] = http();
-            return acc;
-        }, {} as Record<number, Transport>),
-        connectors,
+        transports: wagmiTransports,
+        //connectors,
+        syncConnectedChain: true
     })
+
+    // const wagmiConfig = createConfig({
+    //     //appName: "Mingles",
+    //     //projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
+    //     chains: supportedChains,
+    //     transports: supportedChains.reduce((acc, chain) => {
+    //         acc[chain.id] = http();
+    //         return acc;
+    //     }, {} as Record<number, Transport>),
+    //     connectors,
+    // })
 
     return (
         <WagmiProvider config={wagmiConfig}>
